@@ -1,13 +1,7 @@
-import Data.Matrix
+qsort [] = []
+qsort (p:xs) = qsort lesser ++ [p] ++ qsort greater
+ where lesser  = filter (< p) xs
+       greater = filter (>= p) xs
 
-m1 = matrix 3 4 $ \(r, c) -> 4 * (r - 1) + c
-m2 = fromList 3 4 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-m3 = fromLists [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
-
-main = do
-    print m1
-    print m2
-    print m3
-
-    print $ zero 3 4 
+main = print $  qsort [100,20,5,30,1,5,20000,10000,3000]
 
