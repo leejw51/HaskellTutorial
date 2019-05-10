@@ -1,8 +1,9 @@
 module My where
 
 import Data.Digest.Pure.SHA
-import Data.ByteString.Lazy.UTF8 as BLU
+import Data.ByteString.Lazy.UTF8 
 
+-- ok
 myFunc = do
- let a = "hello world"
- print $  sha256 $ BLU.fromString a
+ putStrLn "pleae enter string =" >>
+  getLine >>= \a -> print $ sha256 $ fromString a
