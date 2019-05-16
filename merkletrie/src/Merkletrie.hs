@@ -1,4 +1,10 @@
+-- coded by jongwhan lee
+-- 2019
+-- for the future
+
 module Merkletrie where
+
+data Tree a = Empty  | Node {value::a,   leftnode:: (Tree a),    rightnode::(Tree a)} deriving(Show,Eq)
 
 putData key value = do
  let filepath= "./db/" ++ key
@@ -9,9 +15,18 @@ getData key = do
  source <- readFile filepath
  return source
 
+display Empty=[]
+display ( Node v left right) = display left ++ [v] ++ display right
+
+hello2 = putStr "OK"
+
+hello3 = do
+    let a = Node "apple" (Node "pear" Empty Empty) Empty 
+    putStrLn $ "node=" ++ show a
+    putStrLn "OK"
+
 hello = do
- putData "h" 100
- b <- getData "h"
- putStr "==============getData=" >> putStr  b >> putStrLn ""
- putStrLn "hello i'm merkletrie============================================"
- 
+    let a = Node "apple" (Node "pear" Empty (Node "strawberry" Empty Empty)) Empty
+    let b = display a
+    print b
+    putStrLn("OK==================================")
