@@ -3,6 +3,8 @@
 -- for the future
 
 module Merkletrie where
+import Data.Digest.Pure.SHA
+import Data.ByteString.Lazy.UTF8 
 
 data Tree a = Empty  | Node {value::a,   leftnode:: (Tree a),    rightnode::(Tree a)} deriving(Show,Eq)
 
@@ -18,6 +20,11 @@ getData key = do
 display Empty=[]
 display ( Node v left right) = display left ++ [v] ++ display right
 
+showhash Empty=[]
+showhash (Node v left right) = do
+    let hash =  sha256 $  fromString v
+    showhash left ++ [hash] ++ showhash right
+
 hello2 = putStr "OK"
 
 hello3 = do
@@ -29,4 +36,6 @@ hello = do
     let a = Node "apple" (Node "pear" Empty (Node "strawberry" Empty Empty)) Empty
     let b = display a
     print b
+    let c = showhash a
+    print c
     putStrLn("OK==================================")
