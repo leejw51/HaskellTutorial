@@ -6,6 +6,7 @@ import Merkletrie
 -- grouped expression should be aligned
 -- ok
 myFunc = do putStrLn "pleae enter string2 ="   
+            hello
             a <- getLine 
             let hash =  sha256 $  fromString a
             let b = show hash
@@ -16,5 +17,5 @@ myFunc = do putStrLn "pleae enter string2 ="
              then 
               myFunc
              else 
-              return ()
+              putStrLn "bye"
              

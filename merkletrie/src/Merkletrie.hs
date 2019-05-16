@@ -3,9 +3,15 @@ module Merkletrie where
 putData key value = do
  let filepath= "./db/" ++ key
  writeFile filepath $ show value
- putStrLn "ok"
+
+getData key = do
+ let filepath= "./db/" ++ key
+ source <- readFile filepath
+ return source
 
 hello = do
  putData "h" 100
- putStrLn "hello i'm merkletrie"
+ b <- getData "h"
+ putStr "==============getData=" >> putStr  b >> putStrLn ""
+ putStrLn "hello i'm merkletrie============================================"
  
