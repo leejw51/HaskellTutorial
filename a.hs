@@ -1,11 +1,14 @@
+mysort[] = []
+mysort[x] = [x]
 
-qsort [] = []
-qsort (x:xs)=qsort small ++ mid ++ qsort large 
-    where 
-        small = [y | y<-xs , y<x]
-        mid = [y | y<-xs, y==x]  ++ [x]
-        large = [y | y<-xs , y>x]
+mysort a = do
+ let (x:y:xs) = a
+ let    ret =  mysort (init bubble) ++  [last bubble]
+         where 
+        bubble= if (x<=y) then [x] ++ mysort(y: xs) else [y] ++ mysort(x: xs)  
+ ret
 
 main = do
-    print $ qsort [5, 10, 20]
-    
+ let b= mysort [10, 5, 20,1,3]
+ print b
+ 
