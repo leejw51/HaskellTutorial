@@ -1,6 +1,8 @@
 module Main where
 
-main = show_all 10
+main = do
+  show_all 10
+  return ()
 
 show_all 0 = return ()
 show_all n = do
