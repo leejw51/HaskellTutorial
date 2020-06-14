@@ -4,7 +4,7 @@ import           Control.Monad
 
 main :: IO ()
 main = do
-  show_all 5
+  putStrLn "enter" >> getLine >>= putStrLn
 
 main2 = do
   a <- getLine
