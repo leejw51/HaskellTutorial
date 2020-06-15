@@ -2,9 +2,9 @@ module Main where
 
 main = do
  putStrLn "OK"
- print $ fibbo 10
+ print $ fibo 10
 
 
-fibbo 0 = 0
-fibbo 1 = 1
-fibbo  x= fibbo (x-1) + fibbo(x-2)
+fibo 0 = 0
+fibo 1 = 1
+fibo  x= fibo (x-1) + fibo(x-2)
