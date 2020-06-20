@@ -1,5 +1,5 @@
-module Main where
+import           Test
 
-main:: IO ()
 main = do
   putStrLn "OK"
+  print $ compute 2
