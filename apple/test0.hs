@@ -1,7 +1,4 @@
-module Maybe where
-
-
-maybe_main = do
+main = do
   putStrLn "maybe main"
   print $ h 0
   print $ h 100
