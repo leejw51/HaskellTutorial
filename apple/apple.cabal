@@ -57,7 +57,7 @@ executable apple
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base , cryptohash-sha256 , cryptohash-sha512,bytestring , cryptohash-sha1
+  build-depends:       base , cryptohash-sha256 , cryptohash-sha512,bytestring , cryptohash-sha1, text-format-simple
   
   -- Directories containing source files.
   -- hs-source-dirs:      
