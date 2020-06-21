@@ -4,8 +4,12 @@ import Sha (sha_main,compute_sha)
 import Text.Format
 import System.IO
 
+main= do
+  let a= [1..10]
+  let b=a >>= \x -> return (x*2) >>= \x -> return (x^2)
+  print $ b
 
-main=do
+main4=do
   a <- getLine
   let b= compute_sha a
   putStrLn b
