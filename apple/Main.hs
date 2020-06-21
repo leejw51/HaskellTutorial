@@ -1,9 +1,21 @@
 module Main where
 import Test (test_main)
-import Sha (sha_main)
+import Sha (sha_main,compute_sha)
 import Text.Format
 import System.IO
-main= do  
+
+
+main=do
+  a <- getLine
+  let b= compute_sha a
+  putStrLn b
+  putStrLn "OK"
+
+main3= do
+  putStrLn $ compute_sha "apple";
+  putStrLn $ compute_sha "apple2";
+
+main2= do  
   --test_main
   --sha_main
   --a <- getLine 

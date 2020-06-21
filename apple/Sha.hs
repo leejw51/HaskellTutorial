@@ -17,3 +17,6 @@ sha_main = do
   --putStrLn $ showHex 100,1,3] "--"
   print $ concatMap (\x -> [(x,x+2,x/2)]) [1,3,5] 
   putStrLn "SHA OK"
+
+
+compute_sha a = concatMap (flip showHex "") $ BS.unpack $ SHA256.hash $ BS2.pack a
