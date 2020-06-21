@@ -1,10 +1,13 @@
 module Main where
 import Test (test_main)
 import Sha (sha_main,compute_sha)
+import Maybe (maybe_main)
 import Text.Format
 import System.IO
 
-main= do
+
+main = maybe_main
+main5= do
   let a= [1..10]
   let b=a >>= \x -> return (x*2) >>= \x -> return (x^2)
   print $ b
