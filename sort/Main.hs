@@ -18,6 +18,6 @@ compute2 = do
 
 quicksort [] = []
 quicksort (x:xs) =
-  let small = [a | a<-xs  , a<=x]
-      big = [ a | a<-xs, a>x]
-  in small ++ [x] ++ big
+  let small =  [a | a<-xs  , a<=x]
+      big =  [ a | a<-xs, a>x]
+  in  quicksort small ++ [x] ++ quicksort big
