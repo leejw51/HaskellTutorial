@@ -1,6 +1,11 @@
 import Data.Char
 import Data.List
+import Earth
 
-main = do
-  line <- fmap (intersperse '-' . reverse . map toUpper) getLine
-  putStrLn line
+main = process
+
+
+process = do
+  putStrLn "hello world"
+  earth_hello
+  
