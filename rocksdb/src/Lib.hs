@@ -33,13 +33,31 @@ print2 (Just a) = do
 someFunc2:: IO ()
 someFunc2 = return ()
 
+
+writeDB db key2 data2 = do
+  let k = BSU.fromString key2
+  let d = BSU.fromString data2
+  put db def k d
+
+writeNodes db 0 = return ()
+writeNodes db a = do
+  let k= "애플" ++ (show a)
+  let d= "데이터" ++ (show a)
+  putStrLn $ k ++ "  " ++ d
+  writeDB db k d
+  writeNodes db $ a-1
+
+printNode db a = do
+  get db def  ( BSU.fromString a ) >>= print2
+
+
 someFunc :: IO ()
 someFunc = do
   db <- initializeDB "note"
-  let a1 = BSU.fromString "워드"
-  let a2 = BSU.fromString "워드"
-  put db def a1 a2
-  get db def a1 >>= print2
+  writeNodes db 10
+  printNode db "애플1"
+  printNode db "애플2"
+  --get db def  ( BSU.fromString "워드" ) >>= print2
   putStrLn "OK"
   return ()
   
