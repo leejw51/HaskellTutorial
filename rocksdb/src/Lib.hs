@@ -51,8 +51,8 @@ printNode db a = do
   get db def  ( BSU.fromString a ) >>= print2
 
 
-someFunc :: IO ()
-someFunc = do
+someFunc3 :: IO ()
+someFunc3 = do
   db <- initializeDB "note"
   writeNodes db 10
   printNode db "애플1"
@@ -61,3 +61,9 @@ someFunc = do
   putStrLn "OK"
   return ()
   
+test1= putStrLn "1" >> putStrLn "2"
+
+test2= putStrLn "3" >> putStrLn "4"
+
+someFunc:: IO ()
+someFunc = test1 >> test2
