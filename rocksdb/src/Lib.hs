@@ -30,6 +30,9 @@ print2 (Just a) = do
   let b= BSU.toString a
   putStrLn b
 
+someFunc2:: IO ()
+someFunc2 = return ()
+
 someFunc :: IO ()
 someFunc = do
   db <- initializeDB "note"
