@@ -9,6 +9,7 @@ import Control.Monad.State
 type GameValue = Int
 type GameState = (Bool, Int)
 
+-- type=State s a  :  s= initial state,   a= final value
 playGame:: String-> State GameState GameValue
 playGame [] = do
   (_,score)  <- get
