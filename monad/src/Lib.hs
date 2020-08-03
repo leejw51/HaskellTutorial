@@ -7,5 +7,6 @@ module Lib
 apple = do
   return "HELLO"
 
+pear = putStrLn "pear"
 someFunc :: IO ()
-someFunc =  apple >>= putStrLn
+someFunc =  apple >>= putStrLn >> pear
