@@ -1,4 +1,2 @@
 
-
-main = putStrLn "hi" >> 
- putStrLn " world"
+main = putStrLn "hi" >> putStrLn " world"
