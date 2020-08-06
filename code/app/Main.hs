@@ -1,8 +1,12 @@
+mysort[] = []
+mysort[x] = [x]
 
-data Person = Person{name :: String, area :: String, age :: Int}
-                deriving (Show, Eq)
+mysort a = do
+ let (x:y:xs) = a
+ let bubble= if (x<=y) then [x] ++ mysort(y: xs) else [y] ++ mysort(x: xs) 
+   in mysort (init bubble) ++  [last bubble]
 
-main
-  = do let mike = Person{name = "Michael", area = "Diamond", age = 1}
-       print $ show mike
-       putStrLn "OK"
+main = do
+ let b= mysort [10, 5, 20,1,3]
+ print b
+ 
