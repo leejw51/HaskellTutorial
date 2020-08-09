@@ -1,5 +1,5 @@
 main = test
 
-test = do
-  putStrLn("ok")
-  test
+test
+  = do putStrLn ("ok")
+       test

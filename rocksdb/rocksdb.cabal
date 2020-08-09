@@ -1,0 +1,77 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 3c8aa1d1fc1df8879725b19225d302dc3b8e295d2dcae15a2aadfa01e5d77f24
+
+name:           rocksdb
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/rocksdb#readme>
+homepage:       https://github.com/githubuser/rocksdb#readme
+bug-reports:    https://github.com/githubuser/rocksdb/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/rocksdb
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_rocksdb
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , bytestring >=0.10.10.0
+    , data-default >=0.7.1.1
+    , rocksdb-haskell >=1.0.1
+    , text
+    , utf8-string >=1.0.1.1
+  default-language: Haskell2010
+
+executable rocksdb-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_rocksdb
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , bytestring >=0.10.10.0
+    , data-default >=0.7.1.1
+    , rocksdb
+    , rocksdb-haskell >=1.0.1
+    , text
+    , utf8-string >=1.0.1.1
+  default-language: Haskell2010
+
+test-suite rocksdb-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_rocksdb
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , bytestring >=0.10.10.0
+    , data-default >=0.7.1.1
+    , rocksdb
+    , rocksdb-haskell >=1.0.1
+    , text
+    , utf8-string >=1.0.1.1
+  default-language: Haskell2010

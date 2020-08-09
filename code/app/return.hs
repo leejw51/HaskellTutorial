@@ -1,6 +1,5 @@
-mysort x = do
- 100
+mysort x = do 100
 
-main = do 
- let a = mysort [10,30,20]
- print a
+main
+  = do let a = mysort [10, 30, 20]
+       print a

@@ -1,5 +1,3 @@
 
+main = do getLine >>= \ a -> putStr a
 
-main = do
-    getLine >>= \a -> putStr a
-    
