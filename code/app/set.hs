@@ -5,11 +5,11 @@ import qualified Data.Map as Map
 import qualified Data.Set as Set
 
 main :: IO ()
-main = do
-  let a=Set.fromList [100, 200,5000]
-  let b=Set.insert 300 a 
-  let a=b
-  print a
+main
+  = do let a = Set.fromList [100, 200, 5000]
+       let b = Set.insert 300 a
+       let a = b
+       print a
 
 main3
   = do let a = Map.empty
