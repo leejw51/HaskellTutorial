@@ -11,4 +11,4 @@ thread_main
        hashAndPrint fileB
 
 hashAndPrint f
-  = L.readFile f >>= return . md5 >>= \ h -> putStrLn (f ++ ": " ++ show h)
+  = L.readFile f >>= return . md5 >>= \ h -> putStrLn $ f ++ ": " ++ show h
