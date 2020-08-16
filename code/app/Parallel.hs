@@ -1,6 +1,5 @@
 module Parallel where
 import Control.Exception
-
 import Control.Parallel
 import Control.Parallel.Strategies
 import Data.Time.Clock
@@ -34,9 +33,7 @@ parallel_main
        t0 <- getCurrentTime
        r <- evaluate (runEval test)
        printTimeSince t0
-       -- fmap (\x -> putStrLn x) r
        printNumber r
-       --print r
        printTimeSince t0
 
 test_fast
