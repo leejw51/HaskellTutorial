@@ -24,6 +24,8 @@ dependencies:
 - containers
 - pureMD5
 - bytestring
+- parallel
+- time
 library:
   source-dirs: src
 
