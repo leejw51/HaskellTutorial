@@ -6,7 +6,7 @@ import Data.Time.Clock
 import System.Environment
 import Text.Printf
 
-fibs_zip = 1 : 1 : zipWith (+) fibs_zip (tail fibs_zip)
+fibs_zip = 0 : 1 : zipWith (+) fibs_zip (tail fibs_zip)
 fib_zip n = fibs_zip !! n
 
 fib2 :: (Eq a1, Num a2, Num a1) => a1 -> [a2]
@@ -32,7 +32,7 @@ printNumber (x : xs)
 
 parallel_main :: IO ()
 parallel_main
-  = do let test = test_fast
+  = do let test = test_zip
        t0 <- getCurrentTime
        r <- evaluate $ runEval test
        printTimeSince t0
@@ -52,7 +52,6 @@ test_zip
        z <- rpar $ fib_zip 3000
        z1 <- rpar $ fib_zip 4000
        return [x, y, z, z1]
-
 
 printTimeSince :: UTCTime -> IO ()
 printTimeSince t0
