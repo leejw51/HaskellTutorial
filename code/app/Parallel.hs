@@ -38,6 +38,11 @@ parallel_main2 = do
 
 
 test8 = do
+  y <- rpar (fib 45)
+  return (y)
+
+
+test7 = do
   x <- rpar (fib 5)
   y <- rpar (fib 37)
   z <- rpar (fib 39)
