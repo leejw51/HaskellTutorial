@@ -6,6 +6,9 @@ import Data.Time.Clock
 import System.Environment
 import Text.Printf
 
+fibs_zip = 1 : 1 : zipWith (+) fibs_zip (tail fibs_zip)
+fib_zip n = fibs_zip !! n
+
 fib2 :: (Eq a1, Num a2, Num a1) => a1 -> [a2]
 fib2 1 = 1 : []
 fib2 2 = 1 : 1 : []
@@ -42,6 +45,14 @@ test_fast
        z <- rpar $ fib3 3000
        z1 <- rpar $ fib3 4000
        return [x, y, z, z1]
+
+test_zip
+  = do x <- rpar $ fib_zip 1000
+       y <- rpar $ fib_zip 2000
+       z <- rpar $ fib_zip 3000
+       z1 <- rpar $ fib_zip 4000
+       return [x, y, z, z1]
+
 
 printTimeSince :: UTCTime -> IO ()
 printTimeSince t0
