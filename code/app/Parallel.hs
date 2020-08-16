@@ -7,6 +7,10 @@ import Data.Time.Clock
 import Text.Printf
 import System.Environment
 
+fib2 1 = 1:[]
+fib2 2 = 1:1:[]
+fib2 n = sum(take 2 f):f where f = fib2 (n-1)
+
 -- <<fib
 fib :: Integer -> Integer
 fib 0 = 1
@@ -17,10 +21,9 @@ fib n = fib (n-1) + fib (n-2)
 
 parallel_main :: IO ()
 parallel_main = do
-  let test = [test] !! 0
   t0 <- getCurrentTime
-  r <- evaluate $ runEval test8
   printTimeSince t0
+  let r= fib2 200
   print r
   printTimeSince t0
 -- >>
@@ -38,7 +41,7 @@ parallel_main2 = do
 
 
 test8 = do
-  y <- rpar (fib 45)
+  y <- rpar (fib 2000)
   return (y)
 
 
