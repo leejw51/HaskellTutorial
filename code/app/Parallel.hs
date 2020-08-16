@@ -31,7 +31,7 @@ parallel_main :: IO ()
 parallel_main
   = do let test = test_fast
        t0 <- getCurrentTime
-       r <- evaluate (runEval test)
+       r <- evaluate $ runEval test
        printTimeSince t0
        printNumber r
        printTimeSince t0
