@@ -21,9 +21,9 @@ fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
 
 printNumber [] = return ()
-printNumber (x:xs)= do
-  putStrLn $ show x 
-  printNumber xs
+printNumber (x : xs)
+  = do putStrLn $ show x
+       printNumber xs
 parallel_main
   = do let test = test_fast
        t0 <- getCurrentTime
@@ -38,10 +38,10 @@ test_fast
   = do x <- rpar (fib3 1000)
        y <- rpar (fib3 2000)
        z <- rpar (fib3 3000)
-       z2 <- rpar (fib3 4000)
-       return [x, y, z, z2]
+       z1 <- rpar (fib3 4000)
+       return [x, y, z, z1]
 
 printTimeSince t0
   = do t1 <- getCurrentTime
-       printf "time: %.9fs\n" (realToFrac (diffUTCTime t1 t0) :: Double)
+       printf "time: %.9fs seconds\n" (realToFrac (diffUTCTime t1 t0) :: Double)
 
