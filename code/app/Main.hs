@@ -1,5 +1,5 @@
 module Main where
 
-import qualified Parallel as P
+import qualified Chatting as C
 
-main = P.parallel_main
+main = C.chatting_main
