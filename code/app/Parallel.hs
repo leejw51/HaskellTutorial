@@ -1,4 +1,4 @@
-module Main where
+module Parallel where
 
 import Control.Parallel
 import Control.Parallel.Strategies
@@ -15,7 +15,7 @@ fib n = fib (n-1) + fib (n-2)
 -- >>
 
 -- <<main
-main = do
+parallel_main = do
   [n] <- getArgs
   print n
   let test = [test1,test2,test3,test4] !! (read n - 1)
