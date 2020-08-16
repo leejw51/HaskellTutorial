@@ -11,6 +11,8 @@ fib2 1 = 1:[]
 fib2 2 = 1:1:[]
 fib2 n = sum(take 2 f):f where f = fib2 (n-1)
 
+fib3 n = fib2 n !! 0
+
 -- <<fib
 fib :: Integer -> Integer
 fib 0 = 1
@@ -19,8 +21,15 @@ fib n = fib (n-1) + fib (n-2)
 -- >>
 
 
-parallel_main :: IO ()
 parallel_main = do
+  let test = test_fast
+  t0 <- getCurrentTime
+  r <- evaluate (runEval test)
+  printTimeSince t0
+  print r
+  printTimeSince t0
+
+parallel_main2 = do
   t0 <- getCurrentTime
   printTimeSince t0
   let r= fib2 200
@@ -28,7 +37,7 @@ parallel_main = do
   printTimeSince t0
 -- >>
 -- <<main
-parallel_main2 = do
+parallel_main3 = do
   [n] <- getArgs
   print n
   let test = [test1,test2,test3,test4] !! (read n - 1)
@@ -39,6 +48,13 @@ parallel_main2 = do
   printTimeSince t0
 -- >>
 
+
+test_fast = do
+  x <- rpar (fib3 5)
+  y <- rpar (fib3 37)
+  z <- rpar (fib3 39)
+  z2 <- rpar (fib3 200)
+  return (x,y,z,z2)
 
 test8 = do
   y <- rpar (fib 2000)
