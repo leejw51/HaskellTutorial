@@ -14,8 +14,18 @@ fib 1 = 1
 fib n = fib (n-1) + fib (n-2)
 -- >>
 
--- <<main
+
+parallel_main :: IO ()
 parallel_main = do
+  let test = [test] !! 0
+  t0 <- getCurrentTime
+  r <- evaluate $ runEval test8
+  printTimeSince t0
+  print r
+  printTimeSince t0
+-- >>
+-- <<main
+parallel_main2 = do
   [n] <- getArgs
   print n
   let test = [test1,test2,test3,test4] !! (read n - 1)
@@ -25,6 +35,14 @@ parallel_main = do
   print r
   printTimeSince t0
 -- >>
+
+
+test8 = do
+  x <- rpar (fib 5)
+  y <- rpar (fib 37)
+  z <- rpar (fib 39)
+  z2 <- rpar (fib 41)
+  return (x,y,z,z2)
 
 -- <<test1
 test1 = do
