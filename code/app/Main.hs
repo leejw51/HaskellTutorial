@@ -1,5 +1,5 @@
 module Main where
 
-import qualified Chatting as C
+import qualified Chatting2 as C
 
 main = C.chatting_main
