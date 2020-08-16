@@ -37,14 +37,15 @@ parallel_main
        printTimeSince t0
 
 test_fast
-  = do x <- rpar (fib3 1000)
-       y <- rpar (fib3 2000)
-       z <- rpar (fib3 3000)
-       z1 <- rpar (fib3 4000)
+  = do x <- rpar $ fib3 1000
+       y <- rpar $ fib3 2000
+       z <- rpar $ fib3 3000
+       z1 <- rpar $ fib3 4000
        return [x, y, z, z1]
 
 printTimeSince :: UTCTime -> IO ()
 printTimeSince t0
   = do t1 <- getCurrentTime
-       printf "time: %.9fs seconds\n" (realToFrac (diffUTCTime t1 t0) :: Double)
+       let v = (realToFrac $ diffUTCTime t1 t0) :: Double
+       printf "time: %.9fs seconds\n" v
 
