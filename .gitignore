@@ -23,3 +23,11 @@ cabal.project.local~
 parallel/.vscode/tasks.json
 parallel/sudoku1
 code/.vscode/bookmarks.json
+
+c_lang/.vscode/
+
+tree/.vscode/tasks.json
+
+*.json
+
+use_c/simple
