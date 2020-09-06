@@ -27,6 +27,9 @@ dependencies:
 - parallel
 - time
 - network
+- utf8-string
+- hexstring
+- hex
 library:
   source-dirs: src
 
