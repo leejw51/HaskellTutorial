@@ -29,7 +29,7 @@ dependencies:
 - network
 - utf8-string
 - hexstring
-- hex
+- cryptohash-sha256
 library:
   source-dirs: src
 
