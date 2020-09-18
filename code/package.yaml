@@ -30,6 +30,9 @@ dependencies:
 - utf8-string
 - hexstring
 - cryptohash-sha256
+- base16-bytestring
+- bytestring-conversion
+
 library:
   source-dirs: src
 
