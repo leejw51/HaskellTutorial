@@ -38,9 +38,6 @@ executables:
     main:                Main.hs
     source-dirs:         
     - app
-    - My
-    - app/examples
-    - app/examples/fruit
     ghc-options:
     - -threaded
     - -rtsopts
