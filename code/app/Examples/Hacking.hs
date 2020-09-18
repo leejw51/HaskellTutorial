@@ -7,6 +7,7 @@ import qualified Data.ByteString
 import Numeric (showHex)
 import Data.Char (ord)
 import Data.Word
+import qualified Data.ByteString.Internal as BS3 (c2w, w2c)
 main2=do 
     putStr "enter sha256 hash to hack="
     putStrLn ""
@@ -21,10 +22,9 @@ compute (x:xs)= do
   putStrLn $ concatMap (flip showHex "") $ BS.unpack bs
   compute xs
 
-charToWord8 = toEnum . fromEnum
 main= do 
-  let s= charToWord8 '0'
-  let e = charToWord8 '9'
+  let s= BS3.c2w '0'
+  let e = BS3.c2w '9'
   let a=[ [x0,x1,x2] | x0 <-[s..e],x1<-[s..e], x2<-[s..e]]
   --print  a
   compute a
