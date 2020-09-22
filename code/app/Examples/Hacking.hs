@@ -24,8 +24,8 @@ compute (x:xs) target= do
   --let bs = SHA256.hash x
   let bs= SHA256.hash $ BS.pack x
   let bs2= BS.unpack bs
-  print x
-  putStrLn $ concatMap (flip showHex "") bs2
+  --print x
+  --putStrLn $ concatMap (flip showHex "") bs2
   if bs2==target 
     then do
       putStrLn "found"
@@ -51,7 +51,7 @@ main= do
   let s= BS3.c2w '0'
   let e = BS3.c2w '9'
   --let a2=[ [x0,x1,x2] | x0 <-[s..e],x1<-[s..e], x2<-[s..e]]
-  let a2= compute2 3 [s..e]
+  let a2= compute2 8 [s..e]
   putStrLn "enter sha256 to hack"
   b <- getLine
   putStrLn "You Enter=  " >> putStrLn b
