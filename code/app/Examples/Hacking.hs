@@ -9,6 +9,7 @@ import Data.Char (ord)
 import Data.Word
 import qualified Data.ByteString.Internal as BS3 (c2w, w2c)
 import qualified Data.ByteString.Base16 as B16
+import Data.Char (ord)
 
 main11=do 
     putStr "enter sha256 hash to hack="
@@ -31,6 +32,9 @@ compute (x:xs) target= do
       putStrLn $ BS2.unpack $ BS.pack x
     else compute xs target
 
+compute2 0 b = [[]]
+compute2 n b = [ (c:cs) | c<-b, cs<- (compute2  (n-1)  b  )]
+
 main5 = do
   let a= [1,2,3]
   let b= BS.pack a
@@ -46,7 +50,8 @@ main5 = do
 main= do 
   let s= BS3.c2w '0'
   let e = BS3.c2w '9'
-  let a2=[ [x0,x1,x2] | x0 <-[s..e],x1<-[s..e], x2<-[s..e]]
+  --let a2=[ [x0,x1,x2] | x0 <-[s..e],x1<-[s..e], x2<-[s..e]]
+  let a2= compute2 3 [s..e]
   putStrLn "enter sha256 to hack"
   b <- getLine
   putStrLn "You Enter=  " >> putStrLn b
