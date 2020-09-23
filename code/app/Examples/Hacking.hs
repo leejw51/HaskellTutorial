@@ -12,6 +12,7 @@ import qualified Data.ByteString.Base16 as B16
 import Data.Char (ord)
 import qualified Data.Time.Clock as Clock
 import Control.Monad
+import Data.List
 
 main11=do 
     putStr "enter sha256 hash to hack="
@@ -21,17 +22,16 @@ main11=do
     putStr "you enter  " >> putStr a
     print c
     
-compute [] target = putStrLn ""
+compute [] target =  []
 compute (x:xs) target= do
   --let bs = SHA256.hash x
   let bs= SHA256.hash $ BS.pack x
   let bs2= BS.unpack bs
-  --print x
   --putStrLn $ concatMap (flip showHex "") bs2
   if bs2==target 
     then do
-      putStrLn "found"
-      putStrLn $ BS2.unpack $ BS.pack x
+      let a= BS2.unpack $ BS.pack x
+      a
     else compute xs target
 
 compute2 0 b = [[]]
@@ -64,7 +64,11 @@ main= do
   print d
   putStr "total "
   print  $ length d 
-  compute a2 d
+  putStrLn "begin computing"
+  --let ret=compute a2 d
+  let ret =  find (\x ->   ((BS.unpack . SHA256.hash . BS.pack)  x) == d ) a2  
+  print ret
+  putStrLn "Done-----------------"
   newtime <- Clock.getCurrentTime
   let t3=  Clock.diffUTCTime  newtime oldtime
   print "elased time" >> print t3
