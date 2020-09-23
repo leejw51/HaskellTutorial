@@ -10,6 +10,8 @@ import Data.Word
 import qualified Data.ByteString.Internal as BS3 (c2w, w2c)
 import qualified Data.ByteString.Base16 as B16
 import Data.Char (ord)
+import qualified Data.Time.Clock as Clock
+import Control.Monad
 
 main11=do 
     putStr "enter sha256 hash to hack="
@@ -48,10 +50,12 @@ main5 = do
   print $ BS.unpack c
   
 main= do 
+  oldtime <-  Clock.getCurrentTime
   let s= BS3.c2w '0'
   let e = BS3.c2w '9'
   --let a2=[ [x0,x1,x2] | x0 <-[s..e],x1<-[s..e], x2<-[s..e]]
-  let a2= compute2 8 [s..e]
+  --let a2= compute2 8 [s..e]
+  let a2 = replicateM 8 [s..e]
   putStrLn "enter sha256 to hack"
   b <- getLine
   putStrLn "You Enter=  " >> putStrLn b
@@ -61,6 +65,9 @@ main= do
   putStr "total "
   print  $ length d 
   compute a2 d
+  newtime <- Clock.getCurrentTime
+  let t3=  Clock.diffUTCTime  newtime oldtime
+  print "elased time" >> print t3
 
 
 main3= do
