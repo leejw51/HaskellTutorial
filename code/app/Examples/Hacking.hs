@@ -14,10 +14,16 @@ import qualified Data.Time.Clock as Clock
 import Control.Monad
 import Data.List
 
+main3  = do
+  let a= replicateM 5 ['0'..'2']
+  let b= head a
+  let c= SHA256.hash $ BS2.pack b
+  print c
+
 main= do 
   oldtime <-  Clock.getCurrentTime
-  let s= BS3.c2w '0'
-  let e = BS3.c2w '9'
+  let s=  '0'
+  let e = '9'
   let a2 = replicateM 8 [s..e]
   putStrLn "enter sha256 to hack"
   b <- getLine
@@ -28,7 +34,7 @@ main= do
   putStr "total "
   print  $ length d 
   putStrLn "begin computing"
-  let ret =  find (\x ->   ((BS.unpack . SHA256.hash . BS.pack)  x) == d ) a2  
+  let ret =  find (\x ->   (( SHA256.hash . BS2.pack)  x) == c ) a2  
   print ret
   putStrLn "Done-----------------"
   newtime <- Clock.getCurrentTime
