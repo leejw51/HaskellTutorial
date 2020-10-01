@@ -14,33 +14,22 @@ import qualified Data.Time.Clock as Clock
 import Control.Monad
 import Data.List
 
-main3 = do
-  let s=  BS3.c2w '0'
-  let e=  BS3.c2w '9'
-  let a= replicateM 5 [s..e]
-  let b= head a
-  print b
-  let c= (SHA256.hash. BS.pack) b
-  print c
+import Control.Parallel
+import Control.Parallel.Strategies
+import Control.Exception
+import Data.Time.Clock
+import Text.Printf
+import System.Environment
 
-main= do 
-  oldtime <-  Clock.getCurrentTime
-  let s=  BS3.c2w '0'
-  let e = BS3.c2w '9'
-  let a2 = replicateM 8 [s..e]
-  putStrLn "enter sha256 to hack"
-  b <- getLine
-  putStrLn "You Enter=  " >> putStrLn b
-  let (c,_)=  B16.decode $ BS2.pack b
-  let d= BS.unpack c
-  print d
-  putStr "total "
-  print  $ length d 
-  putStrLn "begin computing"
-  let ret =  find (\x ->   (( SHA256.hash . BS.pack)  x) == c ) a2  
-  print ret
-  putStrLn "Done-----------------"
-  newtime <- Clock.getCurrentTime
-  let t3=  Clock.diffUTCTime  newtime oldtime
-  print "elased time" >> print t3
 
+test = do
+  let d= [1..10]
+  let d2=[1..1000]
+  a <- rpar (sum d)
+  b <- rpar (sum d2)
+  return [a,b]
+
+main= do
+  r <- evaluate (runEval test)
+  print r
+  putStrLn "OK"
