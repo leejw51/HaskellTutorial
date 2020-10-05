@@ -29,7 +29,27 @@ test = do
   b <- rpar (sum d2)
   return [a,b]
 
-main= do
+main2= do
   r <- evaluate (runEval test)
   print r
   putStrLn "OK"
+
+nfib :: Int -> Int
+nfib n | n <= 1 = 1
+       | otherwise = par n1 (pseq n2 (n1 + n2 ))
+                     where n1 = nfib (n-1)
+                           n2 = nfib (n-2)
+
+-- slow fibonacci
+fib :: Integer -> Integer
+fib 0 = 1
+fib 1 = 1
+fib n = fib (n - 1) + fib (n - 2)
+
+main= do
+  let a= nfib 10
+  let b = fib 10
+  print a
+  print "DONE"
+  print b 
+  print "OK"
