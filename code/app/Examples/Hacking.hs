@@ -62,7 +62,7 @@ compute (x:xs) myhash = par n1 (pseq n2 (if n1=="" then n2 else n1))
   where n1 = mycompare x myhash
         n2 = compute xs myhash
 
-main= do
+main22= do
   let (c,_)=  B16.decode $ BS2.pack "f66edff8c75e2a6de17e15cdd5ed5dbf11fdd1b7cb5823d573bf2aab8997a696"
   let myhash= c
   let a = replicateM 8 ['0'..'9']
@@ -70,3 +70,14 @@ main= do
   let b=compute a myhash
   print b
   print "OK"
+
+parMap f [] = return []
+parMap f (a:as) = do 
+  b <- rpar (f a)
+  bs <- parMap f as 
+  return (b:bs) 
+
+
+main = do 
+  let a= [1..10]
+  putStrLn "OK"
