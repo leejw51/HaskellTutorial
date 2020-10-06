@@ -33,6 +33,7 @@ dependencies:
 - base16-bytestring
 - bytestring-conversion
 - time
+- monad-par
 
 library:
   source-dirs: src

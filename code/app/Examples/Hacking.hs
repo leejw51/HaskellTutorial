@@ -15,42 +15,13 @@ import Control.Monad
 import Data.List
 
 import Control.Parallel
-import Control.Parallel.Strategies
 import Control.Exception
 import Data.Time.Clock
 import Text.Printf
 import System.Environment
+import Control.Monad.Par
+import Data.Maybe
 
-
-test = do
-  let d= [1..10]
-  let d2=[1..1000]
-  a <- rpar (sum d)
-  b <- rpar (sum d2)
-  return [a,b]
-
-main2= do
-  r <- evaluate (runEval test)
-  print r
-  putStrLn "OK"
-
-nfib :: Int -> Int
-nfib n | n <= 1 = 1
-       | otherwise = par n1 (pseq n2 (n1 + n2 ))
-                     where n1 = nfib (n-1)
-                           n2 = nfib (n-2)
-
-nfib2 n | n <= 1 = 1
-        | otherwise = n1 `par` n2 `pseq`  (n1 + n2 )
-                     where n1 = nfib (n-1)
-                           n2 = nfib (n-2)
-
-
--- slow fibonacci
-fib :: Integer -> Integer
-fib 0 = 1
-fib 1 = 1
-fib n = fib (n - 1) + fib (n - 2)
 
 mycompare a myhash=
   if ((SHA256.hash. BS2.pack) a)==myhash
@@ -71,13 +42,15 @@ main22= do
   print b
   print "OK"
 
-parMap f [] = return []
-parMap f (a:as) = do 
-  b <- rpar (f a)
-  bs <- parMap f as 
-  return (b:bs) 
+
+myadd a = return Just (a+ 10)	
 
 
+myprint (Just x) = print x
+mysolve a = return $  Just (10*a)
 main = do 
   let a= [1..10]
+  let c = runPar $ parMap myadd a
+  --let d = filter isJust c
+  --print d
   putStrLn "OK"
