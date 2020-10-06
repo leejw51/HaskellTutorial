@@ -4,7 +4,7 @@ import Control.Exception
 import System.Environment                                                                                                               
 import Data.Maybe                                                                                                                       
 import Control.Monad.Par
-                                                                                                                
+import Control.Monad                                                                                                                
 
 mysolve:: Int -> Maybe Int
 mysolve a = do
@@ -14,6 +14,6 @@ mysolve a = do
     
 main = do                                                                                                                               
   let grids= [1..10]
-  let b=filter isJust (runPar $ parMap mysolve grids)
+  let b=msum (runPar $ parMap mysolve grids)
   print b
   print "OK"                                  
