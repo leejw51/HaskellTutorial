@@ -7,7 +7,13 @@ import Control.Monad.Par
                                                                                                                 
 
 mysolve:: Int -> Maybe Int
-mysolve a = return (a*100)                                                                                                                                        
+mysolve a = do
+  if a<5 
+    then return (a*100)                                                                                                                                        
+    else Nothing
+    
 main = do                                                                                                                               
   let grids= [1..10]
-  print (length (filter isJust (runPar $ parMap mysolve grids)))                                                                 
+  let b=filter isJust (runPar $ parMap mysolve grids)
+  print b
+  print "OK"                                  
