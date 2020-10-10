@@ -25,8 +25,7 @@ searchHash= found
     (mc,_)=  B16.decode $ BS2.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
     chars=['0'..'9']
     c= replicateM 8 ['0'..'9']
-    found= foldl' (<|>) empty (runPar <%> c)
-    runPar = (mycompute mc) 
+    found= foldr (<|>) empty  $ runPar $ parMap(mycompute mc)  c
 
 
 -- | Parallel map using deepseq, par and pseq
