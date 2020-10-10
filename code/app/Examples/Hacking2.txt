@@ -1,0 +1,36 @@
+module Examples.Hacking where
+
+import Control.Exception                                                                                                                
+import System.Environment                                                                                                               
+import Data.Maybe                                                                                                                       
+import Control.Monad.Par
+import Control.Monad                                                                                                                
+import Data.Foldable
+import Control.DeepSeq
+import Control.Parallel
+import Control.Applicative
+import qualified Data.ByteString as BS
+import qualified Data.ByteString.Base16 as B16
+import qualified Data.ByteString.Char8 as BS2
+import qualified Crypto.Hash.SHA256 as SHA256
+main = do
+  putStrLn "Hacking"
+  --let c= replicateM 6  [0..9]
+  let (mc,_)=  B16.decode $ BS2.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+  let chars=['0'..'9']
+  --let c =[[a,b,c,d ,e,f,g,h] | a<-chars, b<-chars, c<-chars,  d<-chars, e<-chars, f<-chars,g<-chars , h<-chars,    ( SHA256.hash . BS2.pack)  [a,b,c,d, e,f,g,h] == mc]
+  let c= replicateM 8 ['0'..'9']
+  let found= foldr (<|>) empty  $ runPar $ parMap   (mycompute mc)  c
+  --let found = c
+  print found
+  print "OK"
+  
+--mysum xs= foldl (\acc x -> acc+x) 0 xs
+
+mycompute::  BS2.ByteString->[Char]-> Maybe [Char]
+mycompute mc a=  do
+  let b= (SHA256.hash . BS2.pack) a 
+  if b==mc
+    then Just a
+    else Nothing
+
