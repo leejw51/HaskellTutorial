@@ -12,22 +12,19 @@ import Control.Applicative
 
 main = do
   putStrLn "Hacking"
-  let c= replicateM 4 [0..9]
-  let b= mycompute <%> c
-  let found= foldl (<|>) empty b
+  --let c= replicateM 6  [0..9]
+  let chars=[0..9]
+  let c =[[a,b,c,d ,e,f,g,h] | a<-chars, b<-chars, c<-chars,  d<-chars, e<-chars, f<-chars,g<-chars , h<-chars,  a+b+c+ d + e+f+g+h ==72]
+  let found= foldr (<|>) empty  $ runPar $ parMap mycompute c
   print found
   print "OK"
   
-mysum xs= foldl (\acc x -> acc+x) 0 xs
+--mysum xs= foldl (\acc x -> acc+x) 0 xs
 
 mycompute:: [Int] -> Maybe [Int]
 mycompute a=  do
   let b= sum a 
-  if b==10 
+  if b==72
     then Just a
     else Nothing
 
-f <%> []       = []
-f <%> (x : xs) = y `par` ys `pseq` (y : ys) where
-  y  = force $ f x
-  ys = f <%> xs
