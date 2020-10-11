@@ -7,28 +7,33 @@ import           Data.ByteString    (pack)
 import           Data.List.Split    (chunksOf)
 import           GHC.Conc           (getNumProcessors)
 import           Text.Printf        (printf)
+import           Control.DeepSeq
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Base16 as B16
 import qualified Data.ByteString.Char8 as BS2
 import Control.Parallel
+import           Data.Foldable
+import Control.Applicative
+import Control.Monad
 
-
-
-
+chars=['0'..'9']
+(target,_)=  B16.decode $ BS2.pack "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+mycompute2 prefix= do
+  a <- chars
+  b <- chars
+  c <- chars
+  d <- chars
+  let src=[a,b,c,d]
+  let hash= SHA256.hash . BS2.pack $ src 
+  guard (target == hash)
+  return src
 
 main = do
-  --let a=replicateM 2 [0..9]
-  let a= [1..100]
-  let b =foldl (\acc x -> acc+x) 0 a
-  print b
+  let found =foldl' (<|>) empty $   mycompute2 []
+  print found
 
-countFibonnaciNumber :: Int -> Int
-countFibonnaciNumber number | number <= 1 = 1
-  | otherwise = par number1 (pseq number2 (number1 + number2 + 1))
-    where  
-      number1 = countFibonnaciNumber (number-1)
-      number2 = countFibonnaciNumber (number-2)
 
-main2= do
-  let a= countFibonnaciNumber 80
-  print a
+f <%> []       = []
+f <%> (x : xs) = y `par` ys `pseq` (y : ys) where
+  y  = force $ f x
+  ys = f <%> xs
