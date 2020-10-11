@@ -2,13 +2,13 @@ module Examples.Hacking where
 
 import Control.Exception                                                                                                                
 import System.Environment                                                                                                               
-import Data.Maybe                                                                                                                       
-import Control.Monad.Par
-import Control.Monad                                                                                                                
-import Data.Foldable
+--import Data.M--aybe                                             .                                                                         
+import           Control.Monad    
+import Control.Applicative
 import Control.DeepSeq
 import Control.Parallel
-import Control.Applicative
+import Data.Foldable
+
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Base16 as B16
 import qualified Data.ByteString.Char8 as BS2
