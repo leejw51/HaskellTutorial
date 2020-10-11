@@ -35,9 +35,11 @@ hacking workloads target= do
   guard (target == hash)
   return src
 
+
 main= do
-  let target_user = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-  let (target,_) = H.decode $ C.pack target_user
+  putStrLn "enter string(only digits up to 8)="
+  target_user <- getLine
+  let target= S.hash $ C.pack target_user
   let found =head $foldl' (<|>) empty $   runsparks  hacking myworks target
   let found2= C.unpack found
   let found3 = removeblank found2
