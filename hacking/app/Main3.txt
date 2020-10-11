@@ -16,16 +16,32 @@ import qualified Crypto.Hash.SHA256            as S
 import Numeric (showHex)
 import qualified Data.Time.Clock as Clock
 import Data.List.Split
+chars :: String
+chars = "0123456789\0"
 
+byteChars :: [C.ByteString]
+byteChars =  C.pack . (: []) <$> chars
 
 prettyPrint = concat . map (flip showHex "") . B.unpack
 
+
+
 hacking :: [[Char]] -> C.ByteString ->Maybe  [C.ByteString]
+-- prefix: to distribute sparks, this is for multi threading
+-- without prefix: onely single threaded
+-- with too many prefix: then too many sparks, system down
 hacking  [] _  =  Nothing
 hacking (x:xs) target= do
   let src = C.pack x
   let hash = S.hash src
+  --let src2=  C.pack $ removeblank $ C.unpack src
+  --let hash= S.hash src2 
+  --guard (target == hash)
+  --return src
   if target==hash then (Just [src]) else hacking xs target
+
+removeblank :: [Char] -> [Char]
+removeblank xs = [ x | x <- xs, not (x `elem` "\0") ]
 
 runsparks _  []    _   = []
 runsparks f  (x : xs) target = par y (pseq ys  (y : ys)) where
@@ -42,10 +58,11 @@ main= do
   putStrLn $ "length= " ++ (show mylength)
   putStrLn $ "hash=" ++  prettyPrint target
   oldtime <-  Clock.getCurrentTime
-  let unit= 1000
-  let chunks= chunksOf unit $ replicateM mylength ['0'..'9']
-  let found = asum  $  runsparks  hacking chunks target
-  print found
+  let chunks= chunksOf 1000 $ replicateM mylength ['0'..'9']
+  let found =head $foldl' (<|>) empty $   runsparks  hacking chunks target
+  let found2= C.unpack found
+  let found3 = removeblank found2
+  putStrLn $  "found=" ++  (show found3)
   newtime <- Clock.getCurrentTime
   let t3=  Clock.diffUTCTime  newtime oldtime
   print "elased time" >> print t3
