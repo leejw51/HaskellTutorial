@@ -17,19 +17,23 @@ import Control.Applicative
 import Control.Monad
 
 chars=['0'..'9']
-(target,_)=  B16.decode $ BS2.pack "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+(target,_)=  B16.decode $ BS2.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+myprefix= replicateM 3 chars
+
+-- prefix: to distribute sparks
 mycompute2 prefix= do
   a <- chars
   b <- chars
   c <- chars
   d <- chars
-  let src=[a,b,c,d]
+  e <- chars
+  let src=prefix++[a,b,c,d,e]
   let hash= SHA256.hash . BS2.pack $ src 
   guard (target == hash)
   return src
 
 main = do
-  let found =foldl' (<|>) empty $   mycompute2 []
+  let found =foldl' (<|>) empty $   mycompute2 <%> myprefix
   print found
 
 
