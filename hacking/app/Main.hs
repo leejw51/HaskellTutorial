@@ -9,7 +9,7 @@ import qualified Data.ByteString.Char8         as C
 import qualified Data.ByteString.Base16        as H
 
 import qualified Crypto.Hash.SHA256            as S
-
+import qualified Data.HexString as H2
 
 chars :: String
 chars = "0123456789\0"
@@ -42,6 +42,8 @@ main= do
   putStrLn "enter string(only digits up to 8)="
   target_user <- getLine
   let target= S.hash $ C.pack target_user
+  putStrLn "hash="
+  print target
   let found =head $foldl' (<|>) empty $   runsparks  hacking myworks target
   let found2= C.unpack found
   let found3 = removeblank found2

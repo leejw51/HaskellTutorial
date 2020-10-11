@@ -28,6 +28,7 @@ dependencies:
 - base16-bytestring
 - cryptohash-sha256
 - blake2
+- hexstring
 
 library:
   source-dirs: src
