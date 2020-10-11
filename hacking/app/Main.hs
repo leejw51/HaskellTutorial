@@ -1,3 +1,7 @@
+-- credit
+-- main sparks distribution logic from https://github.com/thyeem/longshot
+--code in 2020.10.11 @ hongkong
+-- by leejw51@gmail.com
 
 module Main  where
 import Control.Monad ( guard, replicateM )
