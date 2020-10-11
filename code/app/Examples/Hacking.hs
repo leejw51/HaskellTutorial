@@ -1,47 +1,34 @@
 module Examples.Hacking where
-
-import Control.Exception                                                                                                                
-import System.Environment                                                                                                               
---import Data.M--aybe                                             .                                                                         
-import           Control.Monad    
-import Control.Applicative
-import Control.DeepSeq
-import Control.Parallel
-import Data.Foldable
-
-import qualified Data.ByteString as BS
+import           Control.Concurrent (setNumCapabilities)
+import qualified Crypto.Hash.SHA256 as SHA256
+import           Control.Monad      (replicateM, join, (>=>))
+import           Control.Monad.Par  (runPar, get, spawnP)
+import           Data.ByteString    (pack)
+import           Data.List.Split    (chunksOf)
+import           GHC.Conc           (getNumProcessors)
+import           Text.Printf        (printf)
+import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Base16 as B16
 import qualified Data.ByteString.Char8 as BS2
-import qualified Crypto.Hash.SHA256 as SHA256
+import Control.Parallel
+
+
+
 
 
 main = do
-  putStrLn "Hacking"
-  let a= searchHash 
+  --let a=replicateM 2 [0..9]
+  let a= [1..100]
+  let b =foldl (\acc x -> acc+x) 0 a
+  print b
+
+countFibonnaciNumber :: Int -> Int
+countFibonnaciNumber number | number <= 1 = 1
+  | otherwise = par number1 (pseq number2 (number1 + number2 + 1))
+    where  
+      number1 = countFibonnaciNumber (number-1)
+      number2 = countFibonnaciNumber (number-2)
+
+main2= do
+  let a= countFibonnaciNumber 80
   print a
-
-searchHash= found
-  where
-    (mc,_)=  B16.decode $ BS2.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
-    chars=['0'..'9']
-    c= replicateM 8 ['0'..'9']
-    found= foldl' (<|>) empty (runPar <%> c)
-    runPar = (mycompute mc) 
-
-
--- | Parallel map using deepseq, par and pseq
-(<%>) :: (NFData a, NFData b) => (a -> b) -> [a] -> [b]
-f <%> []       = []
-f <%> (x : xs) = y `par` ys `pseq` (y : ys) where
-  y  = force $ f x
-  ys = f <%> xs
-
-
-
-mycompute::  BS2.ByteString->[Char]-> Maybe [Char]
-mycompute mc a=  do
-  let b= (SHA256.hash . BS2.pack) a 
-  if b==mc
-    then Just a
-    else Nothing
-
