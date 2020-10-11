@@ -11,24 +11,32 @@ import           Control.DeepSeq
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Base16 as B16
 import qualified Data.ByteString.Char8 as BS2
+import qualified Data.ByteString.Char8 as C
 import Control.Parallel
 import           Data.Foldable
 import Control.Applicative
 import Control.Monad
 
 chars=['0'..'9']
+byteChars :: [C.ByteString]
+byteChars = C.pack . (: []) <$> chars
+
+
+bytePrefixes :: Int -> String -> [C.ByteString]
+bytePrefixes numPrefix chars = C.pack <$> replicateM numPrefix chars
+
 (target,_)=  B16.decode $ BS2.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
-myprefix= replicateM 3 chars
+myprefix=bytePrefixes 3 chars
 
 -- prefix: to distribute sparks
 mycompute2 prefix= do
-  a <- chars
-  b <- chars
-  c <- chars
-  d <- chars
-  e <- chars
-  let src=prefix++[a,b,c,d,e]
-  let hash= SHA256.hash . BS2.pack $ src 
+  a <- byteChars
+  b <- byteChars
+  c <- byteChars
+  d <- byteChars
+  e <- byteChars
+  let src = foldl' (<>) mempty [prefix, a, b, c, d, e]
+  let hash= SHA256.hash src 
   guard (target == hash)
   return src
 

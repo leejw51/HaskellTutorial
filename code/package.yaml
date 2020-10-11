@@ -52,6 +52,10 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -dynamic
+    - -feager-blackholing
+    - -g0
+
     dependencies:
     - code
 
