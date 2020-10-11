@@ -17,17 +17,13 @@ byteChars =  C.pack . (: []) <$> chars
 bytePrefixes :: Int -> String -> [C.ByteString]
 bytePrefixes numPrefix chars = C.pack <$> replicateM numPrefix chars
 
---(target,_)=  H.decode $ C.pack "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-(target,_)=  H.decode $ C.pack "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
-myprefix=bytePrefixes 3 chars
+myworks=bytePrefixes 3 chars
 
-
-
-hacking :: C.ByteString -> [C.ByteString]
+hacking :: C.ByteString -> C.ByteString -> [C.ByteString]
 -- prefix: to distribute sparks, this is for multi threading
 -- without prefix: onely single threaded
 -- with too many prefix: then too many sparks, system down
-hacking workloads= do
+hacking workloads target= do
   a <- byteChars
   b <- byteChars
   c <- byteChars
@@ -40,21 +36,16 @@ hacking workloads= do
   return src
 
 main= do
-  let found =head $foldl' (<|>) empty $   runsparks  hacking myprefix
+  let target_user = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+  let (target,_) = H.decode $ C.pack target_user
+  let found =head $foldl' (<|>) empty $   runsparks  hacking myworks target
   let found2= C.unpack found
   let found3 = removeblank found2
-  print found3
+  putStr "found=" >> putStr found3
 
 removeblank xs = [ x | x <- xs, not (x `elem` "\0") ]
 
-main2 :: IO ()
-main2= do
-    let a= "1020\0\0\0"
-    let b= removeblank a
-    print b
-
-runsparks :: NFData a1 => (a2 -> a1) -> [a2] -> [a1]
-runsparks f []       = []
-runsparks f  (x : xs) = par y (pseq ys  (y : ys)) where
-  y  = force $ f x
-  ys = runsparks f  xs
+runsparks _  []    _   = []
+runsparks f  (x : xs) target = par y (pseq ys  (y : ys)) where
+  y  = force $ f x target
+  ys = runsparks f  xs target
