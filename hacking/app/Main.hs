@@ -1,11 +1,13 @@
+
 module Main  where
-import           Control.Monad
+import Control.Monad ( guard, replicateM )
 import           Control.DeepSeq
 import           Control.Parallel
 import           Control.Applicative
 import           Data.Foldable
 import qualified Data.ByteString.Char8         as C
 import qualified Data.ByteString.Base16        as H
+
 import qualified Crypto.Hash.SHA256            as S
 
 
