@@ -16,7 +16,7 @@ import qualified Crypto.Hash.SHA256            as S
 import Numeric (showHex)
 import qualified Data.Time.Clock as Clock
 chars :: String
-chars = "0123456789"
+chars = "0123456789\0"
 
 byteChars :: [C.ByteString]
 byteChars =  C.pack . (: []) <$> chars
@@ -39,7 +39,8 @@ hacking workloads target= do
   d <- byteChars
   e <- byteChars
   let src = foldl (<>) mempty [workloads, a, b, c, d, e]
-  let hash= S.hash src 
+  let src2=  C.pack $ removeblank $ C.unpack src
+  let hash= S.hash src2 
   guard (target == hash)
   return src
 
