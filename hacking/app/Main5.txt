@@ -15,35 +15,17 @@ import qualified Data.ByteString as B
 import qualified Crypto.Hash.SHA256            as S
 import Numeric (showHex)
 import qualified Data.Time.Clock as Clock
-chars :: String
-chars = "0123456789"
+import Data.List.Split
 
-byteChars :: [C.ByteString]
-byteChars =  C.pack . (: []) <$> chars
 
 prettyPrint = concat . map (flip showHex "") . B.unpack
 
-bytePrefixes :: Int -> String -> [C.ByteString]
-bytePrefixes numPrefix chars = C.pack <$> replicateM numPrefix chars
-
-myworks=bytePrefixes 3 chars
-
-hacking :: C.ByteString -> C.ByteString -> [C.ByteString]
--- prefix: to distribute sparks, this is for multi threading
--- without prefix: onely single threaded
--- with too many prefix: then too many sparks, system down
-hacking workloads target= do
-  a <- byteChars
-  b <- byteChars
-  c <- byteChars
-  d <- byteChars
-  e <- byteChars
-  let src = foldl (<>) mempty [workloads, a, b, c, d, e]
-  let hash= S.hash src 
-  guard (target == hash)
-  return src
-
-removeblank xs = [ x | x <- xs, not (x `elem` "\0") ]
+hacking :: [[Char]] -> C.ByteString ->Maybe  [C.ByteString]
+hacking  [] _  =  Nothing
+hacking (x:xs) target= do
+  let src = C.pack x
+  let hash = S.hash src
+  if target==hash then (Just [src]) else hacking xs target
 
 runsparks _  []    _   = []
 runsparks f  (x : xs) target = par y (pseq ys  (y : ys)) where
@@ -55,13 +37,15 @@ main= do
   putStrLn "enter string(only digits up to 8)="
   target_user <- getLine
   let target= S.hash $ C.pack target_user
-  putStrLn "hash="
-  print $ prettyPrint target
+
+  let mylength = length target_user
+  putStrLn $ "length= " ++ (show mylength)
+  putStrLn $ "hash=" ++  prettyPrint target
   oldtime <-  Clock.getCurrentTime
-  let found =head $foldl' (<|>) empty $   runsparks  hacking myworks target
-  let found2= C.unpack found
-  let found3 = removeblank found2
-  putStr "found=" >> putStr found3
+  let unit= 30
+  let chunks= chunksOf unit $ replicateM mylength ['0'..'9']
+  let found = asum  $  runsparks  hacking chunks target
+  print found
   newtime <- Clock.getCurrentTime
   let t3=  Clock.diffUTCTime  newtime oldtime
   print "elased time" >> print t3
